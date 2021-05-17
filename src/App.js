@@ -1,20 +1,12 @@
 import './App.css';
 import './components/uploader';
+import Header from './components/header';
 import Uploader from './components/uploader';
 
 function App() {
   return (
     <div className="App">
-      <header className="header">
-        <div>
-          <a href="/">Mong<span>Converter</span></a>
-          <ul>
-            <li>About</li>
-            <li>How It Works</li>
-            <li>FAQ</li>
-          </ul>
-        </div>
-      </header>
+      <Header/>
       <main>
         <div className="App_right">
           <Uploader/>
