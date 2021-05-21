@@ -5,7 +5,7 @@ function Uploader(props) {
 
     const [display, setDisplay] = useState([]);
 
-    const host = 'http://127.0.0.1:5000';
+    const host = 'https://mongoconvertbackend.herokuapp.com';
     let newDisplay = []
 
     function sendData(file, newDisplay) {
