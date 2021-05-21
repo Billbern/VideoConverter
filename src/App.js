@@ -1,18 +1,23 @@
-import './App.css';
-import './components/uploader';
-import Header from './components/header';
-import Uploader from './components/uploader';
+import { useState } from "react";
+import "./App.css";
+import "./components/uploader";
+import Header from "./components/header";
+import Uploader from "./components/uploader";
+import Controller from "./components/controller";
+
 
 function App() {
+
+  const [file, setFile] = useState(null);
+  const [input, setInput] = useState({ media: '', format: '' });
+
   return (
     <div className="App">
-      <Header/>
+      <Header />
       <main>
         <div className="App_right">
-          <Uploader/>
-          <div className="App_load">
-
-          </div>
+          <Controller {...{ file, setInput }} />
+          <Uploader {...{ input, setFile }} />
         </div>
       </main>
     </div>

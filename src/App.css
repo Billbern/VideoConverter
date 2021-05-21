@@ -84,16 +84,50 @@ header > div a span{
 }
 
 .load_par .disp_inner .media_item{
+  margin: 4px;
   width: 103px;
   height: 103px;
   display: flex;
   flex-basis: auto;
-  margin: 4px;
+  position: relative;
+  align-items: center;
   flex-direction: column;
+  justify-content: center;
   background-color: #fff;
+  transition-delay: 1s;
+  transition-timing-function: ease;
+  transition-property: display;
   box-shadow: 0px 2px 4px rgba(0,0,0,0.25);
 }
 
+.media_item .inner_item{
+  position: absolute;
+}
+
+.media_item .inner_item a svg{
+  width: 32px;
+  height: 32px;
+  fill: #c0392b;
+  animation-name: bouncingSvg;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
+  animation-duration: 0.9s;
+  transition: all 0.9s ease-in-out;
+}
+
+.media_item .inner_item span{
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  position: relative;
+  display: inline-block;
+  border: 2px solid #34495e;
+  border-left-color: #c0392b;
+  animation-name: circleReducer;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+  animation-duration: 0.9s;
+}
 
 .media_item video{
   width: 100%;
@@ -135,4 +169,49 @@ header > div a span{
   left: 0px;
   opacity: 0;
   cursor: pointer;
+}
+
+.App_right .med-controller{
+  width: 480px;
+  margin: 16px auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+.med-controller select{
+  font-weight: 600;
+  padding: 4px 24px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.med-controller label{
+  margin-right: auto;
+  margin-left: auto;
+  font-size: 15px;
+}
+
+
+@keyframes circleReducer {
+  0%{
+    transform: rotate(0);
+  }
+  50%{
+    transform: rotate(180deg);
+  }
+  100%{
+    transform: rotate(360deg);
+  }
+  
+}
+
+@keyframes bouncingSvg{
+  from{
+    transform: translateY(0px);
+  }
+  to{
+    transform: translateY(8px);
+  }
 }
