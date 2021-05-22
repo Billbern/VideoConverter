@@ -1,38 +1,33 @@
-import { useState } from 'react';
+import { useSelector, useDispatch } from "react-redux";
+import { selectMedia, selectFormat } from './action';
+
 
 function Controller(props) {
-    
-    const [media, setMedia] = useState('');
-    const [format, setFormat] = useState('');
 
-    function setValue(e){
-        let mdata = media;
-        let fdata = format;
-        if (e.target.name === 'mediatype'){
-            setMedia(e.target.value);
-            mdata = e.target.value;
-        }
-        if (e.target.name === 'convertto'){
-            setFormat(e.target.value);
-            fdata = e.target.value;
-        }
-        if (mdata && fdata){
-            props.setInput({media: mdata, format: fdata});
-        }
+    const media = useSelector(state => state.options.mediatype);
+    const dispatch = useDispatch();
 
+    function setMedia(content, selectMedia, dispatch){
+        return dispatch(selectMedia(content));
+    }
+
+    function setFormat(content, selectFormat, dispatch){
+        return dispatch(selectFormat(content));
     }
     
     return (
         <div className="med-controller">
             
-            <select name="mediatype" onChange={setValue} defaultValue={media}>
+            <select name="mediatype" onChange={e=> setMedia(e.target.value, selectMedia, dispatch)}>
                 <option value="">---</option>
-                <option value="audio">audio</option>
-                <option value="video">video</option>
+                {
+                    ["audio", "video"].map((item, key) => <option key={key} value={item}>{item}</option>)
+                }
+                
             </select>
             <label htmlFor="mediatype">output</label>
             
-            <select name="convertto" id="convertTo" onChange={setValue} defaultValue={format}>
+            <select name="convertto" id="convertTo" onChange={e=> setFormat(e.target.value, selectFormat, dispatch)}>
                 <option value="">---</option>
                 {
                     media === 'audio' ? 
