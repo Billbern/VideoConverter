@@ -1,6 +1,6 @@
 # VideoConverter
 
-Description: This is a simple online video and audio converter developed with React frontend and flask backend.
+Description: This is a simple online video and audio converter developed with React frontend and fastapi backend.
 
 NB: still under development and experience on smaller screen not good
 

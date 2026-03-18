@@ -1,0 +1,78 @@
+# docker-compose.yml
+version: '3.8'
+
+services:
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    networks:
+      - transcoder-network
+
+  backend:
+    build: ./backend
+    ports:
+      - "8000:8000"
+    environment:
+      - RABBITMQ_URL=amqp://guest:guest@rabbitmq
+      - DATABASE_URL=postgresql://user:pass@db:5432/transcoder
+    depends_on:
+      - rabbitmq
+      - db
+    volumes:
+      - uploads:/tmp/uploads
+    networks:
+      - transcoder-network
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    networks:
+      - transcoder-network
+
+  worker:
+    build: ./worker
+    deploy:
+      replicas: 3  # Scale workers horizontally
+    environment:
+      - RABBITMQ_URL=amqp://guest:guest@rabbitmq
+    depends_on:
+      - rabbitmq
+    volumes:
+      - uploads:/tmp/uploads
+      - processed:/tmp/processed
+    networks:
+      - transcoder-network
+    # Resource limits
+    cpus: '1.0'
+    mem_limit: '2g'
+
+  db:
+    image: postgres:13
+    environment:
+      - POSTGRES_DB=transcoder
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=pass
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - transcoder-network
+
+volumes:
+  uploads:
+  processed:
+  rabbitmq_data:
+  postgres_data:
+
+networks:
+  transcoder-network:
+    driver: bridge
